@@ -1,9 +1,10 @@
-name: Bundle Analyzer deployment - Develop Push
+name: .rc tag release
 
 on:
   push:
     tags:
-      - v*.*.*-rc.*
+      - v*\.*\.*-rc
+      - v*\.*\.*-rc\.*
 
 jobs:
   build:
