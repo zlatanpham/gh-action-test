@@ -12,6 +12,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Netlify deployment
+      - name: tag release success
         run: |
           echo 'release success'
