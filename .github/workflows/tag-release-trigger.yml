@@ -1,0 +1,16 @@
+name: Bundle Analyzer deployment - Develop Push
+
+on:
+  push:
+    tags:
+      - v*.*.*-rc.*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Netlify deployment
+        run: |
+          echo 'release success'
