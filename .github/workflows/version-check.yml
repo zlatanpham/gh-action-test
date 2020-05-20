@@ -19,11 +19,11 @@ jobs:
         run: |
           echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "$npm_package_version"')"
           echo "::set-env name=TAG_CURRENT_VERSION::${GITHUB_REF/refs\/tags\//}"
-      - name: run deploy to production if tag matches
-        if: contains(env.TAG_CURRENT_VERSION, env.PACKAGE_CURRENT_VERSION)
+      - name: run deploy to production if maches
+        if: env.TAG_CURRENT_VERSION == $('v' + env.PACKAGE_CURRENT_VERSION)
         run: |
           echo 'deploying to prod'
-      - name: terminate if tag not matches
-        if: contains(env.TAG_CURRENT_VERSION, env.PACKAGE_CURRENT_VERSION) == false
+      - name: terminate if not matches
+        if: env.TAG_CURRENT_VERSION != $('v' + env.PACKAGE_CURRENT_VERSION)
         run: |
-          echo 'tag not match'
+          echo 'The current release tag does not match the version defined in package.json. Please make sure'
