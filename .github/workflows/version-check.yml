@@ -17,13 +17,13 @@ jobs:
       - uses: actions/checkout@v1
       - name: get version from package.json
         run: |
-          echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "$npm_package_version"')"
+          echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "v$npm_package_version"')"
           echo "::set-env name=TAG_CURRENT_VERSION::${GITHUB_REF/refs\/tags\//}"
       - name: run deploy to production if maches
-        if: env.TAG_CURRENT_VERSION == $('v' + env.PACKAGE_CURRENT_VERSION)
+        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           echo 'deploying to prod'
       - name: terminate if not matches
-        if: env.TAG_CURRENT_VERSION != $('v' + env.PACKAGE_CURRENT_VERSION)
+        if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
         run: |
           echo 'The current release tag does not match the version defined in package.json. Please make sure'
