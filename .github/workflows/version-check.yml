@@ -11,6 +11,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: package.json version echo
+      - name: get version from package.json
         run: |
-          npx -c 'echo "$npm_package_version"'
+          echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "$npm_package_version"')"
+          echo "::set-env name=TAG_CURRENT_VERSION::${GITHUB_REF/refs\/tags\//}"
+      - name: echo tag
+        run: |
+          echo $PACKAGE_CURRENT_VERSION
+          echo $TAG_CURRENT_VERSION
