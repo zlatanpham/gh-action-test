@@ -4,9 +4,8 @@ on:
   push:
     tags:
       - v\d+\.\d+\.\d+
-    tags-ignore:
-      - v*\.*\.*-rc
-      - v*\.*\.*-rc\.*
+      - '!v*\.*\.*-rc'
+      - '!v*\.*\.*-rc\.*'
 
 jobs:
   build:
