@@ -1,11 +1,11 @@
 name: version check
 
 on:
-  tags:
-    - v\d+\.\d+\.\d+
-    - '!v*\.*\.*-rc'
-    - '!v*\.*\.*-rc\.*'
   push:
+    tags:
+      - v\d+\.\d+\.\d+
+      - '!v*\.*\.*-rc'
+      - '!v*\.*\.*-rc\.*'
     branches:
       - master
 
