@@ -1,4 +1,4 @@
-name: .rc tag release
+name: .rc pro tag release
 
 on:
   push:
