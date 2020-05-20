@@ -1,0 +1,16 @@
+name: version check
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: package.json version echo
+        run: |
+          npx -c 'echo "$npm_package_version"'
