@@ -21,7 +21,7 @@ jobs:
         if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           echo 'deploying to prod'
-      - name: Terminate if not matches
+      - name: Terminate if version in package.json doesn't match the release tag
         if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
         run: |
-          echo 'The current release tag does not match the version defined in package.json. Please make sure'
+          echo 'The current release tag does not match the version defined in package.json'
