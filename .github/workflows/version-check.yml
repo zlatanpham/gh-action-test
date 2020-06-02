@@ -22,40 +22,36 @@ jobs:
           echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "v$npm_package_version"')"
           echo "::set-env name=TAG_CURRENT_VERSION::${GITHUB_REF/refs\/tags\//}"
 
+      - uses: actions/github-script@0.3.0
+        if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
+        with:
+          script: >
+            core.setFailed(`The current release tag does not match the version defined in package.json`);
+
       - name: Setup gcloud CLI
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         with:
           version: '291.0.0'
           service_account_email: ${{ secrets.GKE_EMAIL }}
           service_account_key: ${{ secrets.GKE_KEY }}
 
       - name: Echo Github reference
-        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           echo ${{github.ref}}
           echo ${{github.head_ref}}
           echo ${{github.base_ref}}
 
       - name: Configure docker to use the gcloud command-line tool as a credential helper
-        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           # Set up docker to authenticate
           # via gcloud command-line tool.
           gcloud auth configure-docker
 
       - name: Build & Push the Docker image
-        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           docker build --build-arg BASE_API=$BASE_API --build-arg CONTENTFUL_SPACE=$CONTENTFUL_SPACE --build-arg CONTENTFUL_TOKEN=$CONTENTFUL_TOKEN --build-arg CONTENTFUL_ENV=$CONTENTFUL_ENV --build-arg GA_TRACKING_ID=$GA_TRACKING_ID -t $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA} .
           docker push $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA}
 
       - name: Add tag
-        if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
         run: |
           gcloud container images add-tag $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_SHA} $REGISTRY_HOSTNAME/$GKE_PROJECT/$IMAGE:${GITHUB_REF##*/}
-
-      - name: Terminate if version in package.json doesn't match the release tag
-        if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
-        run: |
-          echo 'The current release tag does not match the version defined in package.json'
