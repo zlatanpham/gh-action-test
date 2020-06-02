@@ -28,7 +28,7 @@ jobs:
           github-token: '${{secrets.GITHUB_TOKEN}}'
           script: |
             const core = require('@actions/core');
-            core.setFailed(`The current release tag - $TAG_CURRENT_VERSION does not match the version defined in package.json`);
+            core.setFailed(`The current release tag - ${process.env.TAG_CURRENT_VERSION} does not match the version defined in package.json`);
             process.exit(1)
 
       - name: Setup gcloud CLI
