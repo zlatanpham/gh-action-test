@@ -25,6 +25,7 @@ jobs:
       - uses: actions/github-script@0.3.0
         if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
         with:
+          github-token: '${{secrets.GITHUB_TOKEN}}'
           script: >
             core.setFailed(`The current release tag does not match the version defined in package.json`);
 
