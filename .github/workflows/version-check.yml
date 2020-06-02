@@ -25,7 +25,9 @@ jobs:
       - uses: actions/github-script@0.3.0
         if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
         with:
-          script: >
+          github-token: '${{secrets.GITHUB_TOKEN}}'
+          script: |
+            const core = require('@actions/core');
             core.setFailed(`The current release tag does not match the version defined in package.json`);
 
       - name: Setup gcloud CLI
