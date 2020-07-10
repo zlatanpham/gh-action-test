@@ -1,0 +1,18 @@
+name: .rc pro tag release
+
+on:
+  push:
+    tags:
+      - v\d+\.\d+\.\d+
+      - '!v*\.*\.*-rc'
+      - '!v*\.*\.*-rc\.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: tag release pro success
+        run: |
+          echo 'release pro success'

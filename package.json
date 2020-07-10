@@ -4,5 +4,11 @@
   "main": "index.js",
   "repository": "git@github.com:zlatanpham/gh-action-test.git",
   "author": "zlatan <zlatan.pham@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  },
+  "scripts": {
+    "start": "APP_NAME='hello' node index.js"
+  }
 }
