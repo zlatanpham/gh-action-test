@@ -1,9 +1,11 @@
-name: version check
+name: tag injdex
 
 on:
   push:
     branches:
       - master
+    tags:
+      - v*
 
 env:
   APP_ENV: prod
