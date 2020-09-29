@@ -7,13 +7,11 @@ on:
 
 env:
   APP_ENV: prod
+  STAGE: 'production'
+  CI: ''
 
 jobs:
   build:
-    env:
-      STAGE: 'production'
-      CI: ''
-
     runs-on: ubuntu-latest
 
     steps:
