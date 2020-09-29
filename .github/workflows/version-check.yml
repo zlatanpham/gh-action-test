@@ -25,7 +25,7 @@ jobs:
       - name: Build new version for production
         if: env.TAG_CURRENT_VERSION != env.PACKAGE_CURRENT_VERSION
         run: |
-          echo 'build ${{env.STATE}}'
+          echo 'build ${{STATE}}'
 
       - name: Build and release production
         if: env.TAG_CURRENT_VERSION == env.PACKAGE_CURRENT_VERSION
