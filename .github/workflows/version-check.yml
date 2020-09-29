@@ -9,6 +9,7 @@ on:
 
 env:
   APP_ENV: prod
+
 jobs:
   build:
     env:
@@ -31,4 +32,4 @@ jobs:
       - name: Build and release production
         if: env.REACT_APP_TAG_CURRENT_VERSION == env.REACT_APP_PACKAGE_CURRENT_VERSION
         run: |
-          echo 'build & release ${{env.REACT_APP_STATE}}'
+          echo 'build & release ${{env.REACT_APP_TAG_CURRENT_VERSION}}'
