@@ -11,6 +11,10 @@ env:
   APP_ENV: prod
 jobs:
   build:
+    env:
+      REACT_APP_STAGE: 'production'
+      CI: ''
+
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +23,12 @@ jobs:
         run: |
           echo "::set-env name=PACKAGE_CURRENT_VERSION::$(npx -c 'echo "v$npm_package_version"')"
           echo "::set-env name=TAG_CURRENT_VERSION::${GITHUB_REF/refs\/tags\//}"
-      - name: Build app
+      - name: Build new version for production
+        if: env.REACT_APP_TAG_CURRENT_VERSION != env.REACT_APP_PACKAGE_CURRENT_VERSION
         run: |
-          yarn install
-          APP_ENV=$APP_ENV APP_VERSION=$TAG_CURRENT_VERSION yarn start
+          echo 'build ${REACT_APP_STATE}'
+
+      - name: Build and release production
+        if: env.REACT_APP_TAG_CURRENT_VERSION == env.REACT_APP_PACKAGE_CURRENT_VERSION
+        run: |
+          echo 'build & release ${REACT_APP_STATE}'
