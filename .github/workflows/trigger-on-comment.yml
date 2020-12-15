@@ -1,0 +1,11 @@
+name: Trigger on comment
+
+on: [issue_comment]
+
+jobs:
+  remove_labels:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get BRANCH_NAME
+        if: ${{ startsWith(github.event.comment.body, '/deploy-pms') }}
+        run: echo Hello, world!
