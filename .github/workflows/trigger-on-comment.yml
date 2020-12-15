@@ -1,11 +1,17 @@
 name: Trigger on comment
 
-on: [issue_comment]
+on:
+  issue_comment:
+    types:
+      - created
 
 jobs:
   remove_labels:
     runs-on: ubuntu-latest
     steps:
       - name: Get BRANCH_NAME
-        if: ${{ startsWith(github.event.comment.body, '/deploy-pms') }}
+        if: >-
+          github.event_name == 'issue_comment'
+          && github.event.issue.number != ''
+          && contains(github.event.comment.body, '/deploy-pms')
         run: echo Hello, world!
