@@ -28,7 +28,7 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
       - name: Set Jira issue Id
         run: >
-          echo "JIRA_ISSUE_ID=$(echo $GITHUB_HEAD_REF | grep -o
+          echo "JIRA_ISSUE_ID=$(echo $GITHUB_REF##*/ | grep -o
           -i -E 'SDA-[0-9]+' | grep -o -E '[0-9]+')" >> $GITHUB_ENV
       - name: echo test
         run: |
