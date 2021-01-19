@@ -35,6 +35,10 @@ jobs:
           echo '${{ env.JIRA_ISSUE_ID }}';
           echo $GITHUB_HEAD_REF
           echo $GITHUB_REF##*/
+          echo " - ${{ env.GITHUB_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
+          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
           echo 'hello'
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
