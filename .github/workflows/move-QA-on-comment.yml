@@ -36,7 +36,7 @@ jobs:
       - name: echo test
         run: |
           echo '${{ env.JIRA_ISSUE_ID }}'
-          echo '$GITHUB_HEAD_REF'
+          echo '${{ GITHUB_HEAD_REF }}'
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
         with:
