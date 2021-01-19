@@ -10,16 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login
+        if: >-
+          github.event_name == 'issue_comment'
+          && github.event.issue.number != ''
+          && contains(github.event.comment.body, '/move-qa')
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_ACCOUNT }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
       - name: Transition issue to QA column
-        if: >-
-          github.event_name == 'issue_comment'
-          && github.event.issue.number != ''
-          && contains(github.event.comment.body, '/move-qa')
         uses: atlassian/gajira-transition@master
         with:
           issue: SDA-1577
