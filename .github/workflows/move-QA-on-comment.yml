@@ -32,7 +32,7 @@ jobs:
           -i -E 'SDA-[0-9]+' | grep -o -E '[0-9]+')" >> $GITHUB_ENV
       - name: echo test
         run: >
-          echo '${{ env.JIRA_ISSUE_ID }}';
+          echo '${{ env.JIRA_ISSUE_ID }} ${{ $GITHUB_HEAD_REF }}';
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
         with:
