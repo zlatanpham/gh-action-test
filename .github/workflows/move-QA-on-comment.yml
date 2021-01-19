@@ -33,5 +33,5 @@ jobs:
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
         with:
-          issue: ${{ JIRA_ISSUE_ID }}
+          issue: '${{ JIRA_ISSUE_ID }}'
           transition: 'Need QA to review'
