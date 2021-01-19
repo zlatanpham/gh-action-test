@@ -22,16 +22,5 @@ jobs:
           && contains(github.event.comment.body, '/move-qa')
         uses: atlassian/gajira-transition@master
         with:
-          issue: |
-            const regex = /(SDA-([0-9]+))/gm;
-            let m;
-            let ids = []
-
-            while ((m = regex.exec(branchName)) !== null) {
-                if (m.index === regex.lastIndex) {
-                    regex.lastIndex++;
-                }
-                ids = ids.concat(Number(m[2]))
-            }
-            return ids
+          issue: SDA-1577
           transition: 'QA'
