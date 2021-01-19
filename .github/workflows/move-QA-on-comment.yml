@@ -1,4 +1,4 @@
-name: Move JIRA ticket to QA column by comment
+name: Move JIRA ticket to QA column by comment2
 
 on:
   issue_comment:
