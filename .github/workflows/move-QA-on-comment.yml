@@ -1,4 +1,4 @@
-name: Move JIRA ticket over QA column by comment
+name: Move JIRA ticket to QA column by comment
 
 on:
   issue_comment:
@@ -9,18 +9,29 @@ jobs:
   move_QA:
     runs-on: ubuntu-latest
     steps:
-      - name: Login
+      - uses: actions/github-script@0.3.0
         if: >-
-          github.event_name == 'issue_comment'
-          && github.event.issue.number != ''
-          && contains(github.event.comment.body, '/move-qa')
+          github.event_name != 'issue_comment'
+          || github.event.issue.number == ''
+          || !contains(github.event.comment.body, '/move-qa')
+        with:
+          github-token: '${{secrets.GITHUB_TOKEN}}'
+          script: |
+            const core = require('@actions/core');
+            core.setFailed('Close job');
+            process.exit(1)
+      - name: Login
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_ACCOUNT }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
+      - name: Set Jira issue Id
+        run: >
+          echo "JIRA_ISSUE_ID=$(echo $GITHUB_HEAD_REF | grep -o
+          -i -E 'SDA-[0-9]+' | grep -o -E '[0-9]+')" >> $GITHUB_ENV
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
         with:
-          issue: SDA-1577
+          issue: ${{ JIRA_ISSUE_ID }}
           transition: 'Need QA to review'
