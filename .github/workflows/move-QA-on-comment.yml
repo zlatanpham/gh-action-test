@@ -1,0 +1,37 @@
+name: Move JIRA ticket over QA column by comment
+
+on:
+  issue_comment:
+    types:
+      - created
+
+jobs:
+  move_QA:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_API_ENDPOINT }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_ACCOUNT }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
+      - name: Transition issue to QA column
+        if: >-
+          github.event_name == 'issue_comment'
+          && github.event.issue.number != ''
+          && contains(github.event.comment.body, '/move-qa')
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: |
+            const regex = /(SDA-([0-9]+))/gm;
+            let m;
+            let ids = []
+
+            while ((m = regex.exec(branchName)) !== null) {
+                if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
+                ids = ids.concat(Number(m[2]))
+            }
+            return ids
+          transition: 'QA'
