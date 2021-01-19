@@ -23,4 +23,4 @@ jobs:
         uses: atlassian/gajira-transition@master
         with:
           issue: SDA-1577
-          transition: 'QA'
+          transition: 'Need QA to review'
