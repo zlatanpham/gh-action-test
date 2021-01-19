@@ -12,7 +12,7 @@ jobs:
       - name: Login
         uses: atlassian/gajira-login@master
         env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_API_ENDPOINT }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_ACCOUNT }}
           JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
       - name: Transition issue to QA column
