@@ -4,6 +4,9 @@ on:
   issue_comment:
     types:
       - created
+  pull_request:
+    branches:
+      - master
 
 jobs:
   move_QA:
@@ -28,19 +31,11 @@ jobs:
           JIRA_API_TOKEN: ${{ secrets.JIRA_AUTH_TOKEN }}
       - name: Set Jira issue Id
         run: >
-          echo "JIRA_ISSUE_ID=$(echo $GITHUB_REF##*/ | grep -o
+          echo "JIRA_ISSUE_ID=$(echo GITHUB_HEAD_REF | grep -o
           -i -E 'SDA-[0-9]+' | grep -o -E '[0-9]+')" >> $GITHUB_ENV
       - name: echo test
-        run: |
-          echo '${{ github.event.pull_request.title }}'
-          echo '${{ env.JIRA_ISSUE_ID }}';
+        run: echo '${{ env.JIRA_ISSUE_ID }} ${{ GITHUB_HEAD_REF }}';
           echo $GITHUB_HEAD_REF
-          echo $GITHUB_REF##*/
-          echo " - ${{ env.GITHUB_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_HEAD_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_BASE_REF_SLUG }}"
-          echo " - ${{ env.GITHUB_REPOSITORY_SLUG }}"
-          echo 'hello'
       - name: Transition issue to QA column
         uses: atlassian/gajira-transition@master
         with:
