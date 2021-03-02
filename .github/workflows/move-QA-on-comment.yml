@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: print test
+        run: |
+          echo '${{ GITHUB_REF##*/ }}'
+          echo '${{ GITHUB_REF#refs/heads/ }}'
       - uses: actions/github-script@0.3.0
         if: >-
           github.event_name != 'issue_comment'
