@@ -12,6 +12,7 @@ jobs:
   move_QA:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/github-script@0.3.0
         if: >-
           github.event_name != 'issue_comment'
